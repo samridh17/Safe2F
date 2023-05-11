@@ -44,3 +44,28 @@ def register(uid):
     else:
         return False
 
+def complete_registration(uid, token):
+		# Hash the UID
+		hashed = hashUID(uid, HASH_COUNT)
+
+		# Send the request
+		r = requests.post(URL + "/register/complete", json={"uid": hashed, "totpCode": token})
+
+		# Check the response
+		if r.status_code < 300:
+				return True
+		else:
+				return False
+                
+def complete_login(uid, token):
+		# Hash the UID
+		hashed = hashUID(uid, HASH_COUNT)
+
+		# Send the request
+		r = requests.post(URL + "/login/complete", json={"uid": hashed, "totpCode": token})
+
+		# Check the response
+		if r.status_code < 300:
+				return True
+		else:
+				return False
