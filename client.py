@@ -23,7 +23,7 @@ def login(uid):
     response = json.loads(r.text)
 
     if r.status_code < 300:
-        return response["token"]
+        return response
 
     return False
 
