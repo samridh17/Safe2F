@@ -3,6 +3,12 @@ import RPi.GPIO as GPIO
 from qr import print_QR
 from hashing import hashUID
 from client import register, login, complete_registration, complete_login
+
+### ALLOWED STATES ###
+# LOGIN
+# REGISTER
+SYSTEM_STATE = "LOGIN"
+
 reader = SimpleMFRC522()
 def login_RFID():
     # GET UID
@@ -22,7 +28,10 @@ def login_RFID():
 
     complete = complete_login(SUID, OTP)
 
-    print(complete)
+    if complete == False:
+        return False
+    
+    return True
 
 def register_RFID():
      # GET UID
@@ -44,7 +53,22 @@ def register_RFID():
     reg_complete = complete_registration(SUID, OTP)
     return True
 
-complete = login_RFID()
+if SYSTEM_STATE == "LOGIN":
+    complete = login_RFID()
+    if complete:
+        print("LOGIN SUCCESSFUL")
+    else:
+        print("LOGIN FAILED")
+
+elif SYSTEM_STATE == "REGISTER":
+    complete = register_RFID()
+    if complete:
+        print("REGISTRATION SUCCESSFUL")
+    else:
+        print("REGISTRATION FAILED")
+else:
+    print("INVALID STATE")
+
 
 GPIO.cleanup()
 
