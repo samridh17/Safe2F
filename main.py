@@ -51,6 +51,10 @@ def register_RFID():
     # Complete Registration
     OTP = input("ENTER OTP FROM AUTHENTICATOR: ")
     reg_complete = complete_registration(SUID, OTP)
+
+    if reg_complete == False:
+        return False
+
     return True
 
 if SYSTEM_STATE == "LOGIN":
